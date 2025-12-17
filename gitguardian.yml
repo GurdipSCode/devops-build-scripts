@@ -1,0 +1,130 @@
+# GitGuardian Configuration
+# https://docs.gitguardian.com/ggshield-docs/reference/gitguardian-yaml
+
+version: 2
+
+secret:
+  # Enable secret detection
+  show_secrets: false
+  
+  # Paths to ignore during scanning
+  ignored_paths:
+    # Test fixtures and samples
+    - "**/test/**"
+    - "**/tests/**"
+    - "**/*.Tests.ps1"
+    - "**/testdata/**"
+    - "**/fixtures/**"
+    - "**/samples/**"
+    - "**/examples/**"
+    
+    # Documentation
+    - "**/docs/**"
+    - "**/*.md"
+    - "**/README*"
+    - "**/CHANGELOG*"
+    
+    # Dependencies and build output
+    - "**/node_modules/**"
+    - "**/vendor/**"
+    - "**/.venv/**"
+    - "**/venv/**"
+    - "**/bin/**"
+    - "**/obj/**"
+    - "**/packages/**"
+    - "**/publish/**"
+    - "**/dist/**"
+    - "**/out/**"
+    
+    # IDE and config
+    - "**/.vs/**"
+    - "**/.vscode/**"
+    - "**/.idea/**"
+    
+    # Terraform state (should not be committed anyway)
+    - "**/*.tfstate"
+    - "**/*.tfstate.*"
+    
+    # Lock files
+    - "**/package-lock.json"
+    - "**/yarn.lock"
+    - "**/go.sum"
+    - "**/packages.lock.json"
+
+  # Specific files to ignore
+  ignored_files:
+    - ".gitignore"
+    - ".gitattributes"
+    - "*.tfvars.example"
+    - "appsettings.json"
+    - "appsettings.*.json"
+
+  # Matches to ignore (regex patterns)
+  ignored_matches:
+    # Example/placeholder values
+    - name: "Placeholder API keys"
+      match: "(your[-_]?api[-_]?key|api[-_]?key[-_]?here|xxx+|CHANGEME|REPLACEME|INSERT[-_]?HERE)"
+    
+    - name: "Example domains"
+      match: "(example\\.com|example\\.org|contoso\\.com|localhost)"
+    
+    - name: "Placeholder passwords"
+      match: "(P@ssw0rd|Password123|SecureP@ss|your[-_]?password[-_]?here)"
+    
+    - name: "Placeholder GUIDs"
+      match: "00000000-0000-0000-0000-000000000000"
+    
+    - name: "Documentation examples"
+      match: "(sk[-_]test|pk[-_]test|AKIAIOSFODNN7EXAMPLE)"
+    
+    - name: "Terraform example values"
+      match: "(var\\.|local\\.|module\\.)"
+
+  # Detectors to ignore
+  ignored_detectors:
+    # Uncomment if generating false positives
+    # - generic_high_entropy_secret
+    # - generic_password
+
+# Pre-commit hook configuration
+pre_commit:
+  # Scan all files, not just staged
+  all: false
+  
+  # Show verbose output
+  verbose: false
+
+# Pre-push hook configuration  
+pre_push:
+  # Scan all commits being pushed
+  all: true
+
+# Pre-receive hook configuration (for server-side)
+pre_receive:
+  # Fail on secrets found
+  remediation_message: |
+    
+    🚨 GitGuardian detected secrets in your commits!
+    
+    To fix this:
+    1. Remove the secret from your code
+    2. Rotate the exposed credential immediately
+    3. Use environment variables or a secret manager
+    4. If this is a false positive, add to .gitguardian.yaml ignored_matches
+    
+    For PowerShell, use:
+      $secret = $env:MY_SECRET
+      # Or
+      $secret = Get-Secret -Name "MySecret" -Vault "MyVault"
+    
+    Documentation: https://docs.gitguardian.com
+
+# Instance configuration (for GitGuardian dashboard)
+instance:
+  # URL of your GitGuardian instance (default is app.gitguardian.com)
+  # url: https://dashboard.gitguardian.com
+
+# Incident configuration
+incident:
+  # Automatically ignore known incidents
+  ignore_known_secrets: false
