@@ -1,1 +1,160 @@
+# CodeRabbit Configuration for PowerShell Repository
+# https://docs.coderabbit.ai/guides/configure-coderabbit
 
+language: en-US
+
+early_access: false
+
+reviews:
+  request_changes_workflow: false
+  high_level_summary: true
+  high_level_summary_placeholder: "@coderabbitai summary"
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+      - master
+      - develop
+
+  path_instructions:
+    - path: "**/*.ps1"
+      instructions: |
+        Review PowerShell scripts for:
+        - Use of approved verbs (Get, Set, New, Remove, etc.)
+        - Proper parameter validation with [Parameter()] attributes
+        - Use of [CmdletBinding()] for advanced functions
+        - Proper error handling with try/catch/finally
+        - Avoid using aliases (use full cmdlet names)
+        - Use of Write-Verbose, Write-Debug, Write-Warning appropriately
+        - Proper pipeline support where applicable
+        - Security: avoid plain text passwords, use SecureString
+        - Check for hardcoded paths or credentials
+        - Ensure consistent naming conventions (PascalCase for functions)
+
+    - path: "**/*.psm1"
+      instructions: |
+        Review PowerShell modules for:
+        - Proper module structure and organization
+        - Correct use of Export-ModuleMember or module manifest exports
+        - No unnecessary global variables
+        - Proper scoping of functions (private vs public)
+        - Dependencies properly documented
+        - Module-level error handling
+
+    - path: "**/*.psd1"
+      instructions: |
+        Review PowerShell module manifests for:
+        - Correct GUID format
+        - Proper versioning (SemVer)
+        - Complete metadata (Author, Description, CompanyName)
+        - Correct FunctionsToExport, CmdletsToExport, VariablesToExport
+        - RequiredModules properly specified
+        - PowerShellVersion compatibility
+
+    - path: "**/*.Tests.ps1"
+      instructions: |
+        Review Pester tests for:
+        - Proper Describe/Context/It structure
+        - Meaningful test names that describe behavior
+        - Use of BeforeAll, BeforeEach, AfterAll, AfterEach appropriately
+        - Proper assertions with Should
+        - Mock usage for external dependencies
+        - Edge cases and error conditions covered
+        - No hardcoded test data paths
+
+    - path: "**/azure-pipelines*.yml"
+      instructions: |
+        Review Azure DevOps pipelines for:
+        - Proper trigger configuration
+        - Secure handling of secrets (use variables/key vault)
+        - Appropriate pool selection
+        - Task versions are specified
+        - Proper artifact handling
+        - PowerShell task using correct shell (pwsh vs powershell)
+
+    - path: "**/.github/workflows/*.yml"
+      instructions: |
+        Review GitHub Actions workflows for:
+        - Proper trigger configuration
+        - Use of secrets for sensitive data
+        - Pinned action versions for security
+        - Appropriate runner selection
+        - PowerShell shell specified correctly (shell: pwsh)
+        - Proper artifact upload/download
+
+chat:
+  auto_reply: true
+
+tone_instructions: |
+  Be direct and technical. Focus on PowerShell best practices and security.
+  Reference PSScriptAnalyzer rules when applicable.
+  Suggest improvements with code examples.
+
+knowledge_base:
+  learnings:
+    scope: auto
+  issues:
+    scope: auto
+  pull_requests:
+    scope: auto
+
+tools:
+  shellcheck:
+    enabled: false
+  markdownlint:
+    enabled: true
+  languagetool:
+    enabled: false
+    enabled_only: false
+    level: default
+  biome:
+    enabled: false
+  hadolint:
+    enabled: true
+  swiftlint:
+    enabled: false
+  phpstan:
+    enabled: false
+  golangci-lint:
+    enabled: false
+  yamllint:
+    enabled: true
+  gitleaks:
+    enabled: true
+  checkov:
+    enabled: false
+  ast-grep:
+    enabled: true
+    packages:
+      - powershell-rules
+
+# Custom review rules
+custom_rules:
+  - name: "Avoid-Aliases"
+    pattern: "\\b(cd|ls|cat|rm|cp|mv|ps|kill|curl|wget)\\b"
+    message: "Avoid using aliases in scripts. Use full cmdlet names for clarity."
+    severity: warning
+
+  - name: "Avoid-Write-Host"
+    pattern: "Write-Host"
+    message: "Consider using Write-Output, Write-Verbose, or Write-Information instead of Write-Host for better pipeline compatibility."
+    severity: info
+
+  - name: "Missing-CmdletBinding"
+    pattern: "^function\\s+\\w+\\s*\\{(?![^}]*\\[CmdletBinding\\()"
+    message: "Consider adding [CmdletBinding()] to enable advanced function features."
+    severity: warning
+
+  - name: "Plain-Text-Password"
+    pattern: "(password|pwd|secret|apikey|api_key)\\s*=\\s*['\"][^'\"]+['\"]"
+    message: "Avoid hardcoding sensitive values. Use SecureString or external secret management."
+    severity: error
+
+  - name: "Invoke-Expression-Usage"
+    pattern: "Invoke-Expression|iex\\s"
+    message: "Avoid Invoke-Expression as it can be a security risk. Consider alternatives."
+    severity: warning
