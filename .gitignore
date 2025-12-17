@@ -1,0 +1,275 @@
+#------------------------------------------------------------------------------
+# PowerShell
+#------------------------------------------------------------------------------
+*.ps1xml
+*.pssc
+*.cdxml
+
+# Module output
+/out/
+/output/
+/publish/
+/release/
+
+# Pester test results
+TestResults/
+*.Tests.xml
+coverage.xml
+*.coverage
+
+#------------------------------------------------------------------------------
+# .NET / C#
+#------------------------------------------------------------------------------
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Build results
+[Aa]rtifacts/
+[Bb]uild[Ll]og.*
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vspscc
+*.vssscc
+*.pidb
+*.svclog
+*.scc
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# User-specific files
+*.rsuser
+*.DotSettings.user
+
+# Build artifacts
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.tlog
+
+#------------------------------------------------------------------------------
+# Python
+#------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# pytest
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff / linting
+.ruff_cache/
+
+#------------------------------------------------------------------------------
+# Go
+#------------------------------------------------------------------------------
+*.exe~
+*.test
+*.out
+*.prof
+
+# Go workspace
+go.work
+go.work.sum
+
+# Vendor directory (optional - uncomment if not committing vendor)
+# vendor/
+
+# Go build cache
+*.a
+
+#------------------------------------------------------------------------------
+# Node.js (if using any JS tooling)
+#------------------------------------------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn
+
+#------------------------------------------------------------------------------
+# OS Generated
+#------------------------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.fuse_hidden*
+.Trash-*
+.nfs*
+
+#------------------------------------------------------------------------------
+# Secrets & Credentials (NEVER commit these)
+#------------------------------------------------------------------------------
+*.pem
+*.key
+*.pfx
+*.p12
+*.cer
+*.crt
+secrets.json
+secrets.yaml
+secrets.yml
+**/secrets/
+.env.local
+.env.*.local
+appsettings.Development.json
+appsettings.Local.json
+*.secret
+credentials.json
+service-account*.json
+
+#------------------------------------------------------------------------------
+# Terraform (if managing infra)
+#------------------------------------------------------------------------------
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+#------------------------------------------------------------------------------
+# IDE & Editors
+#------------------------------------------------------------------------------
+*.swp
+*.swo
+*.swn
+*~
+.project
+.classpath
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+#------------------------------------------------------------------------------
+# Logs & Temp Files
+#------------------------------------------------------------------------------
+logs/
+*.log
+*.tmp
+*.temp
+*.bak
+*.backup
+
+#------------------------------------------------------------------------------
+# Archives (don't commit build outputs)
+#------------------------------------------------------------------------------
+*.zip
+*.tar.gz
+*.rar
+*.7z
